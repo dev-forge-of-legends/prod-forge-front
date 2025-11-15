@@ -29,25 +29,25 @@ class ApiService {
     this.api.interceptors.response.use(
       (response) => response,
       async (error) => {
-        const originalRequest = error.config;
+        // const originalRequest = error.config;
 
         // If token expired (401) and we haven't already tried to refresh
-        if (error.response?.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
+        // if (error.response?.status === 401 && !originalRequest._retry) {
+        //   originalRequest._retry = true;
 
-          const refreshSuccess = await AuthService.refreshAccessToken();
+        //   const refreshSuccess = await AuthService.refreshAccessToken();
 
-          if (refreshSuccess) {
-            // Retry the original request with new token
-            const newToken = AuthService.getAccessToken();
-            originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            return this.api(originalRequest);
-          } else {
-            // Refresh failed, redirect to home
-            AuthService.logout();
-            // window.location.href = "/";
-          }
-        }
+        //   if (refreshSuccess) {
+        //     // Retry the original request with new token
+        //     const newToken = AuthService.getAccessToken();
+        //     originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        //     return this.api(originalRequest);
+        //   } else {
+        //     // Refresh failed, redirect to home
+        //     AuthService.logout();
+        //     // window.location.href = "/";
+        //   }
+        // }
 
         return Promise.reject(error.response.data || error.message);
       }
