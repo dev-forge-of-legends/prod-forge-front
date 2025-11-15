@@ -285,72 +285,82 @@ const CreateTeamMatches: React.FC = () => {
       </AnimatePresence>
 
       {/* Sidebar Overlay */}
+
       {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm pointer-events-auto z-50 transition-opacity duration-300"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
           onClick={toggleSidebar}
-        ></div>
+        />
       )}
 
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            initial={{ x: -100, y: -100, opacity: 0 }} // ← Appears from corner
+            animate={{ x: 0, y: 0, opacity: 1 }}
+            exit={{ x: 100, y: -100, opacity: 0 }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed right-0 top-0 w-full md:w-96 h-full bg-dark/90 shadow-lg z-50 overflow-y-auto"
+            className="fixed top-5 right-5 w-full max-w-sm h-[85vh] bg-[#0f0f0f]/95 rounded-xl shadow-2xl z-50 overflow-y-auto smart-scroll p-5"
           >
-            <div className="flex flex-col justify-between relative p-5 overflow-y-scroll smart-scroll h-full">
-              <div>
-                <div className="flex justify-between w-full">
-                  <h1 className="font-vastagoSemiBold text-[28px] text-white">
-                    Invite Team
-                  </h1>
-                  {/* Close Button */}
-                  <button
-                    className="text-white text-xl cursor-pointer hover:text-yellow-400 transition-colors"
-                    onClick={toggleSidebar}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <SearchInput
-                  text={search}
-                  setText={(text: string) => {
-                    setSearch(text);
-                    debouncedSearch(text);
-                  }}
-                  className="mt-5 mb-5"
-                />
-                {teamsdata.map((item, index) => (
-                  <InviteTeamItem
-                    key={index}
-                    team={item}
-                    checked={selectedUserIds.includes(item.id)}
-                    onChange={(id: string, checked: boolean) =>
-                      updateSelectedItem(id, checked)
-                    }
-                  />
-                ))}
-              </div>
+            {/* HEADER */}
+            <div className="flex justify-between items-center mb-5">
+              <h1 className="font-vastagoSemiBold text-[26px] text-white">
+                Invite Friends
+              </h1>
 
-              <div className="bottom-10 flex flex-row justify-center gap-2 w-full">
-                <BgButton
-                  onClick={resetSelectedUserIds}
-                  size="off"
-                  className="w-40 h-10"
-                >
-                  <span className="text-yellow-bright">RESET</span>
-                </BgButton>
-                <BgButton
-                  onClick={setinviteTeams}
-                  size="on"
-                  className="w-40 h-10"
-                >
-                  <span className="text-yellow-bright">INVITE TEAM</span>
-                </BgButton>
-              </div>
+              <button
+                className="text-white text-xl hover:text-yellow-400 transition-colors"
+                onClick={toggleSidebar}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* SEARCH */}
+            <SearchInput
+              text={search}
+              setText={(text: string) => {
+                setSearch(text);
+                debouncedSearch(text);
+              }}
+              className="mb-5"
+            />
+
+            {/* FRIEND LIST */}
+            <div className="space-y-2">
+              {teamsdata.map((item, index) => (
+                <InviteTeamItem
+                  key={index}
+                  team={item}
+                  checked={selectedUserIds.includes(item.id)}
+                  onChange={(id: string, checked: boolean) =>
+                    updateSelectedItem(id, checked)
+                  }
+                />
+              ))}
+            </div>
+
+            {/* ACTION BUTTONS */}
+            <div className="mt-6 flex justify-center gap-3">
+              <BgButton
+                onClick={resetSelectedUserIds}
+                size="off"
+                className="w-32 h-10"
+              >
+                <span className="text-yellow-bright">RESET</span>
+              </BgButton>
+
+              <BgButton
+                onClick={setinviteTeams}
+                size="on"
+                className="w-32 h-10"
+              >
+                <span className="text-yellow-bright">INVITE</span>
+              </BgButton>
             </div>
           </motion.div>
         )}

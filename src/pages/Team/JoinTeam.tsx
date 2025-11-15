@@ -50,7 +50,7 @@ const JoinTeam: React.FC = () => {
           <input
             type="text"
             placeholder="Search teams..."
-            className="font-vastagoRegular text-white text-[18px] bg-[#160B04] px-4 pl-10 py-3 rounded-md border border-1 border-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent w-full"
+            className="font-vastagoRegular text-white text-[18px] bg-[#160B04] px-4 pl-10 py-3 rounded-md border-1 border-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent w-full"
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleSearch}

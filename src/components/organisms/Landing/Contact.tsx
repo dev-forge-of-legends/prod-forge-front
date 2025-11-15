@@ -47,7 +47,7 @@ const Contact: React.FC<ContactProps> = ({ onClose }) => {
               <Globe className="w-4 h-4 text-[#160B04]" />
             </div>
             <a
-              href="https://www.triospace.tech"
+              href="https://triospace.tech"
               target="_blank"
               rel="noreferrer"
               className="hover:text-white text-[19px]"

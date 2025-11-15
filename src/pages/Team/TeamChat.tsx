@@ -509,7 +509,7 @@ const TeamChat: React.FC = () => {
           <div className="space-y-3 md:space-y-4 max-w-full md:max-w-4xl mx-auto">
             {chatHistory.length === 0 ? (
               <div className="text-center text-gray-400 py-12">
-                <div className="w-24 h-24 mx-auto mb-4 bg-blue-300 bg-gray-700 rounded-full flex items-center justify-center">
+                <div className="w-24 h-24 mx-auto mb-4 bg-gray-700 rounded-full flex items-center justify-center">
                   <svg
                     className="w-12 h-12 text-gray-500"
                     fill="none"

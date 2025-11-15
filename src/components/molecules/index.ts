@@ -1,5 +1,5 @@
 export * from "./AchievementPagination";
-export * from "./Auth";
+export * from "./auth";
 export * from "./DailyReward";
 export * from "./DiceModal";
 export * from "./EditProfile";

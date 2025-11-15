@@ -64,9 +64,9 @@ const MatchChat: React.FC = () => {
     fetchProfile();
   }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatHistory]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [chatHistory]);
 
   useEffect(() => {
     if (selectedRoom) {
@@ -87,9 +87,9 @@ const MatchChat: React.FC = () => {
     };
   }, [selectedRoom]);
 
-  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
-    messagesEndRef.current?.scrollIntoView({ behavior });
-  };
+  // const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior });
+  // };
 
   const handleSendMessage = async () => {
     if (text.trim() === "") return;
@@ -234,47 +234,20 @@ const MatchChat: React.FC = () => {
   //   setIsSidebarOpen(!isSidebarOpen);
   // };
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen justify-center items-center bg-gray-900">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-white text-lg">Loading teams...</div>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex min-h-screen justify-center items-center bg-gray-900">
+  //       <div className="flex flex-col items-center space-y-4">
+  //         <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+  //         <div className="text-white text-lg">Loading teams...</div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     // <div className="flex min-h-[50%] min-w-[70%] bg-[#1b1009] rounded-2xl overflow-hidden shadow-2xl">
-    <div className="flex h-[80vh]  w-full max-w-[1400px] bg-[#1b1009] rounded-2xl overflow-hidden shadow-2xl">
-      {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-[#24160e] border-b border-[#3a281e]">
-        {/* <button
-          onClick={toggleSidebar}
-          className="text-white p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button> */}
-        <h1 className="text-white text-xl font-bold">
-          {selectedRoom
-            ? selectedRoom.teamInfo?.name || selectedRoom.otherUser?.userName
-            : "Team Chat"}
-        </h1>
-        <div className="w-10"></div>
-      </div>
+    <div className="flex h-[calc(100vh-140px)] w-full bg-[#1b1009] overflow-hidden shadow-2xl">
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col bg-[#1b1009] min-h-0">
@@ -324,6 +297,7 @@ const MatchChat: React.FC = () => {
           }}
           className="flex-1 overflow-y-auto p-4 md:p-6 chat-bg min-h-0"
         >
+          {loading && <div>Loading...</div>}
           <div className="space-y-3 md:space-y-4 max-w-4xl mx-auto">
             {chatHistory.length === 0 ? (
               <div className="text-center text-gray-400 py-12">

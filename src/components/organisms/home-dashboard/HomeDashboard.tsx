@@ -14,12 +14,19 @@ import {
   SoftBadge,
 } from "@components/atoms";
 import { StatCard } from "@components/molecules";
-import {
-  CHALLENGE_MINI,
-  INDIVIDUAL_MINI,
-  Stat,
-} from "../../../types/constants";
+import { Stat } from "../../../types/constants";
 import { Image } from "../../atoms/Image";
+import {
+  apiGetIndividualGamesCount,
+  apiGetTeamGamesCount,
+} from "@apis/team_match";
+
+interface DashboardTeam {
+  numTotal: number;
+  numInProgress: number;
+  numPending: number;
+  numCompleted: number;
+}
 
 export const HomeDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -78,7 +85,30 @@ export const HomeDashboard: React.FC = () => {
     fetchAchievement();
     fetchBonusReceived();
     fetchTeamData();
+    fetchIndividualCount();
+    fetchTeamMatchCount();
   }, []);
+
+  const [individualcount, setIndividualCount] = useState<DashboardTeam>();
+  const [teamcount, setTeamCount] = useState<DashboardTeam>();
+
+  const fetchIndividualCount = async () => {
+    try {
+      const data = await apiGetIndividualGamesCount();
+      setIndividualCount(data);
+    } catch {
+      console.error("Error Occured");
+    }
+  };
+
+  const fetchTeamMatchCount = async () => {
+    try {
+      const data = await apiGetTeamGamesCount();
+      setTeamCount(data);
+    } catch {
+      console.error("error occured");
+    }
+  };
 
   const fetchAchievement = async () => {
     try {
@@ -358,19 +388,22 @@ export const HomeDashboard: React.FC = () => {
                 </div>
                 <div className="rounded-xl bg-[#160B0480] p-2 border border-gray-700">
                   <div className="grid grid-cols-2 gap-2">
-                    {INDIVIDUAL_MINI.map((x) => (
-                      <div
-                        key={x.label}
-                        className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200"
-                      >
-                        <div className="font-vastagoMedium text-gray-400 text-xs text-center">
-                          {x.label}
-                        </div>
-                        <div className="mt-1 font-vastagoMedium text-white text-sm text-center">
-                          {x.value}
-                        </div>
+                    <div className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200">
+                      <div className="font-vastagoMedium text-gray-400 text-xs text-center">
+                        Matches Created
                       </div>
-                    ))}
+                      <div className="mt-1 font-vastagoMedium text-white text-sm text-center">
+                        {individualcount?.numTotal}
+                      </div>
+                    </div>
+                    <div className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200">
+                      <div className="font-vastagoMedium text-gray-400 text-xs text-center">
+                        Matches Waiting
+                      </div>
+                      <div className="mt-1 font-vastagoMedium text-white text-sm text-center">
+                        {individualcount?.numPending}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mt-2 border-t border-gray-700 pt-2 text-center">
@@ -390,19 +423,22 @@ export const HomeDashboard: React.FC = () => {
                 </div>
                 <div className="rounded-xl bg-[#160B0480] p-2 border border-gray-700">
                   <div className="grid grid-cols-2 gap-2">
-                    {CHALLENGE_MINI.map((x) => (
-                      <div
-                        key={x.label}
-                        className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200"
-                      >
-                        <div className="font-vastagoRegular text-gray-400 text-xs text-center">
-                          {x.label}
-                        </div>
-                        <div className="mt-1 text-sm font-vastagoMedium text-white text-center">
-                          {x.value}
-                        </div>
+                    <div className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200">
+                      <div className="font-vastagoRegular text-gray-400 text-xs text-center">
+                        Matches Created
                       </div>
-                    ))}
+                      <div className="mt-1 text-sm font-vastagoMedium text-white text-center">
+                        {teamcount?.numTotal}
+                      </div>
+                    </div>
+                    <div className="bg-[#160B0480] rounded-lg p-2 border border-gray-600 hover:border-amber-500/30 transition-all duration-200">
+                      <div className="font-vastagoRegular text-gray-400 text-xs text-center">
+                        Matches Waiting
+                      </div>
+                      <div className="mt-1 text-sm font-vastagoMedium text-white text-center">
+                        {teamcount?.numPending}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="mt-2 border-t border-gray-700 pt-2 text-center">
@@ -436,7 +472,7 @@ export const HomeDashboard: React.FC = () => {
                   Claimed: {claimedAchievementsCount} / {achieve.length}
                 </p>
               </div>
-                
+
               <ul className="space-y-2 max-h-64 overflow-y-auto custom-scrollbar">
                 {displayAchievements
                   .filter((achieve) => achieve.isAchieved === "true")

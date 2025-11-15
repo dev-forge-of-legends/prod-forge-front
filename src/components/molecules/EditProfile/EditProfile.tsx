@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { apiUpdateUser } from "@apis/user";
 import { BgButton, BgInput } from "@components/atoms";
-import toast from "react-hot-toast";
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -26,25 +26,24 @@ export const EditProfile = ({ isOpen, onClose }: SignupModalProps) => {
   });
 
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
-
   const validateField = (field: keyof SimpleSignupFormData, value: string) => {
     const errors: { [key: string]: string } = {};
 
     switch (field) {
-    case "username":
-      if (!value.trim()) {
-        errors.username = "Username is required";
-      } else if (value.length < 3) {
-        errors.username = "Username must be at least 3 characters";
-      }
-      break;
-    case "email":
-      if (!value.trim()) {
-        errors.email = "Email is required";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        errors.email = "Please enter a valid email address";
-      }
-      break;
+      case "username":
+        if (!value.trim()) {
+          errors.username = "Username is required";
+        } else if (value.length < 3) {
+          errors.username = "Username must be at least 3 characters";
+        }
+        break;
+      case "email":
+        if (!value.trim()) {
+          errors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          errors.email = "Please enter a valid email address";
+        }
+        break;
     }
 
     return errors[field] || "";

@@ -48,7 +48,6 @@ import { Header } from "@components/organisms/header";
 
 import { MobileSidebarDrawer } from "@components/organisms/sidebar/MobileSidebarDrawer";
 import { Menu, X } from "lucide-react";
-import { Footer } from "@components/organisms";
 
 const DashboardLayout: React.FC = () => {
   const { pathname } = useLocation();
@@ -97,11 +96,10 @@ const DashboardLayout: React.FC = () => {
           {/* Mobile Drawer Overlay - absolute, content shift nahi hoga */}
           <div
             className={`lg:hidden fixed inset-0 z-[60] transition-opacity duration-200
-                       ${
-                         mobileOpen
-                           ? "opacity-100 pointer-events-auto"
-                           : "opacity-0 pointer-events-none"
-                       }`}
+                       ${mobileOpen
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+              }`}
           >
             {/* Backdrop */}
             <div
@@ -113,9 +111,8 @@ const DashboardLayout: React.FC = () => {
               className={`absolute left-0 top-0 h-[100dvh] w-[260px]
                           bg-bgclr sidebar-glass-border
                           transition-transform duration-300 ease-in-out
-                          ${
-                            mobileOpen ? "translate-x-0" : "-translate-x-full"
-                          }`}
+                          ${mobileOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
             >
               {/* Close btn inside drawer */}
               <button
@@ -137,9 +134,9 @@ const DashboardLayout: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-auto">
+          {/* <div className="mt-auto">
             <Footer />
-          </div>
+          </div> */}
         </div>
       </div>
     </BackgroundWrapper>

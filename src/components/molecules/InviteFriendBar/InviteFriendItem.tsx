@@ -20,7 +20,7 @@ export const InviteFriendItem = ({ user, isDelete, checked, onChange }: InviteFr
   }, [checked]);
   return (
     //  <div className="flex flex-row justify-between items-center w-full border-b-1 border-b-white/10">
-    <div className="flex flex-row h-16 justify-between items-center m-2 rounded-lg shadow-[inset_4px_4px_20px_0_rgba(100,55,27,0.4)]">
+    <div className="flex flex-row h-16 justify-between items-center m-2 border-b-1 border-b-white/10">
       <Image
         src={user.avatar}
         fallbackSrc="/assets/images/users/user12.webp"

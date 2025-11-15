@@ -19,6 +19,7 @@ interface SimpleSignupFormData {
 
 const Profile: React.FC = () => {
   const [avatarModalOpen, setAvatarModalOpen] = useState<boolean>(false);
+  // const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [profile, setProfile] = useState<UserData>();
@@ -51,6 +52,11 @@ const Profile: React.FC = () => {
     const data = await apiGetUser();
     setProfile(data);
   };
+
+  // const handleLogout = async () => {
+  //   await apiLogout();
+  //   navigate("/");
+  // };
 
   const handleAvatarClick = () => {
     setAvatarModalOpen(true);

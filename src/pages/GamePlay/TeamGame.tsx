@@ -162,130 +162,79 @@ const TeamGame: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-[#090502]">
-      {/* Mobile overlay when chat is open */}
-      {showChat && (
+      {/* Chat Panel */}
+      <div className="fixed bottom-0 z-50 w-full max-w-96">
         <div
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
-
-      <div className="relative flex flex-col lg:flex-row gap-6 max-w-[1400px] mx-auto px-4 lg:px-8 pt-6 pb-28 lg:pb-10">
-        {/* Chat Panel */}
-        <div className="w-full lg:w-96 lg:flex-shrink-0">
-          <div
-            className={`fixed inset-x-0 bottom-0 z-50 h-[85vh] w-full transform border-t-2 border-[#3a281e] bg-[#1b1009] shadow-2xl transition-all duration-500 ease-out rounded-t-3xl
+          className={`
             ${showChat
-                ? "translate-y-0 opacity-100 pointer-events-auto"
-                : "translate-y-full opacity-0 pointer-events-none"
-              }
-            lg:static lg:inset-auto lg:h-[70vh] lg:max-h-[600px] lg:w-full lg:rounded-2xl lg:border-2 lg:border-[#3a281e] lg:opacity-100 lg:translate-y-0 lg:pointer-events-auto`}
-          >
-            <div className="h-full flex flex-col">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 lg:hidden">
-                <p className="text-white font-semibold">Team Chat</p>
-                <button
-                  className="text-sm text-yellow-400"
-                  onClick={toggleSidebar}
-                >
-                  Close
-                </button>
-              </div>
-              <div className="flex-1">
-                <MatchChat />
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop toggle button */}
-          <div className="hidden lg:block mt-4">
-            <button
-              className="w-full text-white font-semibold py-4 px-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl border border-white/10 bg-black/40"
-              onClick={toggleSidebar}
-            >
-              <div className="flex items-center justify-center space-x-2">
-                {players.find((p) => p.teamId === teamId.current)?.team?.avatar ? (
-                  <img
-                    src={players.find((p) => p.teamId === teamId.current)?.team?.avatar}
-                    alt="Team Avatar"
-                    className="w-6 h-6 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center">
-                    <span className="text-xs text-white">T</span>
-                  </div>
-                )}
-                <span>{showChat ? "Hide Team Chat" : "Live Team Chat"}</span>
-                {!showChat ? <ChevronsUp /> : <ChevronsDown />}
-              </div>
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "translate-y-full opacity-0 hidden pointer-events-none"
+            }`}
+        >
+          <div className="flex justify-end w-full backdrop-blur-sm lg:hidden">
+            <button onClick={toggleSidebar} className="text-white bg-[#24160e] px-2 py-1 rounded-xl">
+              Close
             </button>
           </div>
+          <MatchChat />
         </div>
 
-        {/* Game Area */}
-        <div className="flex-1 flex flex-col items-center gap-6 w-full">
-          <Timer leftTime={time} />
-          <Board
-            players={players}
-            pawns={pawns}
-            movingPlayerColor={movingPlayerColor}
-            rolledNumber={rolledNumber}
-            nowMoving={nowMoving}
-            onVotePawn={votePawn}
-            selectedPawnId={selectedPawnId}
-            hoveredPawnId={hoveredPawnId}
-            onHoverPawn={setHoveredPawnId}
-          />
-
-          <div className="w-full flex justify-center">
-            <div className="w-full max-w-[456px] p-4 flex flex-col items-center text-center space-y-4">
-              <PawnsVote
-                pawns={pawns}
-                teamColor={players.find((p) => p.teamId === teamId.current)?.color || ""}
-                selectedPawnId={selectedPawnId}
-                onVotePawn={votePawn}
-                onHoverPawn={setHoveredPawnId}
-                rolledNumber={rolledNumber}
-                nowMoving={nowMoving}
-              />
-              <Dice
-                value={rolledNumber | 0}
-                rollTimestamp={rollTimestamp}
-                nowMoving={nowMoving}
-                onClick={rollDice}
-              />
-              {winner && (
-                <div className="bg-green-600 text-white p-4 rounded-lg shadow-lg text-center w-full">
-                  🎉 Winner: {winner.team?.name || "Unknown"}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile chat toggle button */}
-      <div className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 lg:hidden">
-        <button
-          className="w-full text-white font-semibold py-4 px-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl border border-white/10 bg-gradient-to-r from-[#f59e0b] to-[#d97706]"
-          onClick={toggleSidebar}
-        >
-          <div className="flex items-center justify-center space-x-2">
-            {players.find((p) => p.teamId === teamId.current)?.team?.avatar ? (
-              <img
-                src={players.find((p) => p.teamId === teamId.current)?.team?.avatar}
-                alt="Team Avatar"
-                className="w-6 h-6 rounded-full object-cover"
-              />
-            ) : (
+        {/* Chat toggle button */}
+        <div className="bottom-4 z-50">
+          <button
+            className="w-full text-white font-semibold py-4 px-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl border border-white/10 bg-gradient-to-r from-[#f59e0b] to-[#d97706]"
+            onClick={toggleSidebar}
+          >
+            <div className="flex items-center justify-center space-x-2">
               <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center">
                 <span className="text-xs text-white">T</span>
               </div>
+              <span>{showChat ? "Hide Team Chat" : "Live Team Chat"}</span>
+              {!showChat ? <ChevronsUp /> : <ChevronsDown />}
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Game Area */}
+      <div className="flex-1 flex flex-col items-center gap-6 w-full pb-16 md:pb-0 lg:pl-96">
+        <Timer leftTime={time} />
+        <Board
+          players={players}
+          pawns={pawns}
+          movingPlayerColor={movingPlayerColor}
+          rolledNumber={rolledNumber}
+          nowMoving={nowMoving}
+          onVotePawn={votePawn}
+          selectedPawnId={selectedPawnId}
+          hoveredPawnId={hoveredPawnId}
+          onHoverPawn={setHoveredPawnId}
+        />
+
+        <div className="w-full flex justify-center">
+          <div className="w-full max-w-[456px] p-4 flex flex-col items-center text-center space-y-4">
+            <PawnsVote
+              pawns={pawns}
+              teamColor={players.find((p) => p.teamId === teamId.current)?.color || ""}
+              selectedPawnId={selectedPawnId}
+              onVotePawn={votePawn}
+              onHoverPawn={setHoveredPawnId}
+              rolledNumber={rolledNumber}
+              nowMoving={nowMoving}
+            />
+            <Dice
+              value={rolledNumber | 0}
+              rollTimestamp={rollTimestamp}
+              nowMoving={nowMoving}
+              onClick={rollDice}
+            />
+            {winner && (
+              <div className="bg-green-600 text-white p-4 rounded-lg shadow-lg text-center w-full">
+                🎉 Winner: {winner.team?.name || "Unknown"}
+              </div>
             )}
-            <span>{showChat ? "Hide Team Chat" : "Live Team Chat"}</span>
-            {!showChat ? <ChevronsUp /> : <ChevronsDown />}
           </div>
-        </button>
+        </div>
       </div>
     </div>
   );

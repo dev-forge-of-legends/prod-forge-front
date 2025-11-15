@@ -9,11 +9,24 @@ const apiCreateTeamMatch = async (data: any) => {
   return response.data;
 };
 
-const apiGetPublicTeamMatches = async () => {
-  const response = await apiService.privateRequest(
-    "/team-matches",
+const apiGetIndividualGamesCount = async () => {
+  const response = await apiService.publicRequest(
+    "/dashboard/getIndividualGames",
     "GET"
   );
+  return response.data;
+};
+
+const apiGetTeamGamesCount = async () => {
+  const response = await apiService.publicRequest(
+    "/dashboard/getTeamGames",
+    "GET"
+  );
+  return response.data;
+};
+
+const apiGetPublicTeamMatches = async () => {
+  const response = await apiService.privateRequest("/team-matches", "GET");
   return response.data;
 };
 
@@ -33,14 +46,13 @@ const apiGetCreatedTeamMatches = async () => {
   return response.data;
 };
 
-const apiGetTeamMatchesById = async (team_id:string) => {
+const apiGetTeamMatchesById = async (team_id: string) => {
   const response = await apiService.privateRequest(
     `/team-matches/${team_id}`,
     "GET"
   );
   return response.data;
 };
-
 
 const apiJoinTeamMatches = async (id_data: string, data: any) => {
   const response = await apiService.privateRequest(
@@ -109,7 +121,7 @@ const apiRollDice = async (matchId: string) => {
   const response = await apiService.privateRequest(
     `/team-matches/${matchId}/play/roll`,
     "POST"
-  )
+  );
   return response.data;
 };
 const apiVotePawn = async (matchId: string, pawnId: string) => {
@@ -117,12 +129,25 @@ const apiVotePawn = async (matchId: string, pawnId: string) => {
     `/team-matches/${matchId}/play/vote`,
     "POST",
     { pawnId }
-  )
+  );
   return response.data;
 };
 export {
-  apiCancelTeamMatch, apiCreateTeamMatch, apiGetCreatedTeamMatches, apiGetInvitedTeamMatches, apiGetPublicTeamMatches, apiGetTeamMatchesById,
-  apiJoinTeamMatches, apiLeaveTeamMatches, apiMemberJoinTeamMatch, apiMemberLeaveTeamMatch, apiNotReadyTeamMatch,
-  apiReadyTeamMatch, apiRollDice, apiStartTeamMatch, apiVotePawn
+  apiCancelTeamMatch,
+  apiCreateTeamMatch,
+  apiGetCreatedTeamMatches,
+  apiGetInvitedTeamMatches,
+  apiGetPublicTeamMatches,
+  apiGetTeamMatchesById,
+  apiJoinTeamMatches,
+  apiLeaveTeamMatches,
+  apiMemberJoinTeamMatch,
+  apiMemberLeaveTeamMatch,
+  apiNotReadyTeamMatch,
+  apiReadyTeamMatch,
+  apiRollDice,
+  apiStartTeamMatch,
+  apiVotePawn,
+  apiGetIndividualGamesCount,
+  apiGetTeamGamesCount,
 };
-
